@@ -128,11 +128,13 @@ def GetSigma(U,N,t,t_3,N_repetitions = 10,mu_to_be_calcd = 0,impurity_strength =
         
         return np.array(SigmaArray)
 
-t = 1
-N = 100
-t_3 = 1
+t_x = 0.1 #corresponds to t_prime and t_prime_prime in the thesis
+t_y = 0.1
+
+N = 100 # number of sites.
+
 
 mu = float(sys.argv[1])
 U = float(sys.argv[2])
 
-data = GetSigma(U,N,t,t_3,N_repetitions = 5,mu_to_be_calcd = mu,impurity_strength = 0.0,PHS = True)
+data = GetSigma(U,N,t_x,t_y,N_repetitions = 5,mu_to_be_calcd = mu,impurity_strength = 0.0,PHS = True)
