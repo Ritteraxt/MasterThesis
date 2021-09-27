@@ -4,7 +4,7 @@ import sys
 import time
 
 def U_Lam(U,Lambda):
-    return U/(1+(Lambda-(2+Lambda**2)/np.sqrt(4+Lambda**2))*U/(2*np.pi))
+    return U/(1+(Lambda-(2+Lambda**2)/np.sqrt(4+Lambda**2))*U/(2*np.pi)) # this is the form for half-filling only.
 
 def GetSigma(U,N,t,N_repetitions = 10,mu_to_be_calcd = 0,impurity_strength = 0,PHS = True):
     
@@ -109,12 +109,9 @@ def GetSigma(U,N,t,N_repetitions = 10,mu_to_be_calcd = 0,impurity_strength = 0,P
             Hyb_iz,Sigma = Next_Hyb_iz(Hyb_iz,returnSigma = True)
             SigmaArray.append(ToArray(Sigma))
 
-            np.save("Zwischenergebnis_Impurity_Sigma_Cluster_t{}_N{}_U{}_j{}_2ndOrderTrunc_MuU.npy".format(t,N,U,j),SigmaArray)
-        return np.array(SigmaArray)
+        return np.array(SigmaArray) #returns the self energy of all loops in the form of an 2N+1 long array per loop. Contains diagonal elements, then off-diagonal elements. 
 
-t = float(sys.argv[1])
+t_x = float(sys.argv[1])
 N = int(sys.argv[2])
 U = float(sys.argv[3])
-ToBeSaved = GetSigma(U,N,t,N_repetitions = 1,mu_to_be_calcd = U,impurity_strength = 1.5,PHS = True)
-
-np.save("Impurity_Sigma_Cluster_t{}_N{}_U{}_2ndOrderTrunc_MuU.npy".format(t,N,U),ToBeSaved)
+ToBeSaved = GetSigma(U,N,t_x,N_repetitions = 1,mu_to_be_calcd = U,impurity_strength = 1.5,PHS = True)
