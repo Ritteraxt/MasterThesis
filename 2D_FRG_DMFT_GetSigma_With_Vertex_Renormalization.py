@@ -17,6 +17,8 @@ def GetSigma(U,N,t,N_repetitions = 10,mu_to_be_calcd = 0,impurity_strength = 0,P
     #PHS (Particle hole symmetry) denotes whether or not the term U/2 is added to the initial conditions for the first and last site.
     #If PHS == True, then mu = U corresponds to exactly the half-filled case.
     
+    #Will return Sigma as an (N + N-1) long array containing first the diagonal- then of-diagonal entries of Sigma.
+    
     #Again: Notice that in this code we switched the notation t <-> t' comparing to the thesis.
     
     t_prime = 1
