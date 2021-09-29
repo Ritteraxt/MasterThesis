@@ -8,6 +8,19 @@ def U_Lam(U,Lambda):
 
 def GetSigma(U,N,t,t_3,N_repetitions = 10,mu_to_be_calcd = 0,impurity_strength = 0,PHS = True):
     
+    #This function will calculate the self energy for the system for a given parameter set.
+    
+    #U denotes the in-chain interaction, N the chain length, t denotes the cross-chain hopping, which is denoted as t' in the master thesis,
+    #t_3 denotes the other cross-chain hopping, which is denoted as t'' in the master thesis
+    #N_repetitions denotes 
+    #the number of DMFT repetitions. We found that 10 repetitions are usually more than sufficient to obtain an accuracy of better than 10^-6. mu_to_be_calcd denotes
+    #the mu value where the system can be calculated. Note that we here have renormalized U in such a way that the renormalization only holds for half-filling, so mu must be chosen accordingly
+    #impurity strength denotes the strength V of a site impurity situated at the center of the chain,
+    #PHS (Particle hole symmetry) denotes whether or not the term U/2 is added to the initial conditions for the first and last site.
+    #If PHS == True, then mu = U corresponds to exactly the half-filled case.
+    
+    #Again: Notice that in this code we switched the notation t <-> t', t'' ->t_3 comparing to the thesis.
+    
     t_prime = 1
     B_Matrix = np.diag([1]*(N-1),1)+np.diag([1]*(N-1),-1)
 
@@ -124,8 +137,7 @@ def GetSigma(U,N,t,t_3,N_repetitions = 10,mu_to_be_calcd = 0,impurity_strength =
             Hyb_iz,Sigma = Next_Hyb_iz(Hyb_iz,returnSigma = True)
             SigmaArray.append(ToArray(Sigma))
             
-        np.save("OccNumber_N1000_No_Vert_Reno_mu{}_U{}".format(mu,U),get_n(Sigma,mu))
-        
+            
         return np.array(SigmaArray)
 
 t_x = 0.1 #corresponds to t_prime and t_prime_prime in the thesis
@@ -134,7 +146,7 @@ t_y = 0.1
 N = 100 # number of sites.
 
 
-mu = float(sys.argv[1])
-U = float(sys.argv[2])
+mu = float(sys.argv[1]) # The chemical potential
+U = float(sys.argv[2])#The interaction strength
 
 data = GetSigma(U,N,t_x,t_y,N_repetitions = 5,mu_to_be_calcd = mu,impurity_strength = 0.0,PHS = True)
