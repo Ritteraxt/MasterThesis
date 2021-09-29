@@ -8,6 +8,17 @@ def U_Lam(U,Lambda):
 
 def GetSigma(U,N,t,N_repetitions = 10,mu_to_be_calcd = 0,impurity_strength = 0,PHS = True):
     
+    #This function will calculate the self energy for the system for a given parameter set.
+    
+    #U denotes the in-chain interaction, N the chain length, t denotes the cross-chain hopping, which is denoted as t' in the master thesis, N_repetitions denotes 
+    #the number of DMFT repetitions. We found that 10 repetitions are usually more than sufficient to obtain an accuracy of better than 10^-6. mu_to_be_calcd denotes
+    #the mu value where the system can be calculated. Note that we here have renormalized U in such a way that the renormalization only holds for half-filling, so mu must be chosen accordingly
+    #impurity strength denotes the strength V of a site impurity situated at the center of the chain,
+    #PHS (Particle hole symmetry) denotes whether or not the term U/2 is added to the initial conditions for the first and last site.
+    #If PHS == True, then mu = U corresponds to exactly the half-filled case.
+    
+    #Again: Notice that in this code we switched the notation t <-> t' comparing to the thesis.
+    
     t_prime = 1
     B_Matrix = np.diag([1]*(N-1),1)+np.diag([1]*(N-1),-1)
 
@@ -111,7 +122,8 @@ def GetSigma(U,N,t,N_repetitions = 10,mu_to_be_calcd = 0,impurity_strength = 0,P
 
         return np.array(SigmaArray) #returns the self energy of all loops in the form of an 2N+1 long array per loop. Contains diagonal elements, then off-diagonal elements. 
 
-t_x = float(sys.argv[1])
-N = int(sys.argv[2])
-U = float(sys.argv[3])
+t_x = float(sys.argv[1]) #corresponds to t' in the thesis.
+N = int(sys.argv[2]) #The chain length of the system
+U = float(sys.argv[3]) #The interaction strength
+
 ToBeSaved = GetSigma(U,N,t_x,N_repetitions = 1,mu_to_be_calcd = U,impurity_strength = 1.5,PHS = True)
